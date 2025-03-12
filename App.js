@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import axios from 'axios';
 import Intro from './components/intro';
@@ -29,6 +28,9 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Text style={styles.backButtonText}>← Volver</Text>
+      </TouchableOpacity>
       <Text style={styles.title}>¿Qué receta quieres aprender hoy? 🍽️</Text>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
