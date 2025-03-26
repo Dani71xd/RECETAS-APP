@@ -1,35 +1,76 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { db, collection, getDocs } from './firebaseConfig';
 import axios from 'axios';
+import AddRecipe from './components/AddRecipe'; 
 import Intro from './components/intro';
 
 const API_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
 const HomeScreen = ({ navigation }) => {
   const [recetas, setRecetas] = useState([]);
+  const [misRecetas, setMisRecetas] = useState([]); // Estado para recetas de Firestore
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchRecetas = async () => {
-      try {
-        const response = await axios.get(API_URL);
-        setRecetas(response.data.meals || []);
-      } catch (error) {
-        console.error('Error al obtener recetas:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchRecetas = async () => {
+    try {
+      const response = await axios.get(API_URL);
+      setRecetas(response.data.meals || []);
+    } catch (error) {
+      console.error('Error al obtener recetas:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const fetchMisRecetas = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "recetas"));
+      const recetasFirestore = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setMisRecetas(recetasFirestore);
+    } catch (error) {
+      console.error('Error al obtener recetas de Firestore:', error);
+    }
+  };
+
+  useEffect(() => {
     fetchRecetas();
+    fetchMisRecetas();
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>¿Qué receta quieres aprender hoy? 🍽️</Text>
+    <ScrollView style={styles.container}>
+      <TouchableOpacity 
+        style={styles.addButton} 
+        onPress={() => {
+          navigation.navigate('AddRecipe');
+          fetchMisRecetas(); 
+        }}
+      >
+        <Text style={styles.buttonText}>Agregar Receta</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.title}>Mis Recetas</Text>
+      {misRecetas.length === 0 ? (
+        <Text style={styles.noDataText}>No tienes recetas guardadas.</Text>
+      ) : (
+        <FlatList
+          data={misRecetas}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => navigation.navigate('Details', { receta: item })}>
+              <View style={styles.recipeContainer}>
+                <Image source={{ uri: item.strMealThumb }} style={styles.recipeImage} />
+                <Text style={styles.recipeTitle}>{item.strMeal}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      )}
+
+      <Text style={styles.title}>¿Qué receta quieres aprender hoy?</Text>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
@@ -46,20 +87,15 @@ const HomeScreen = ({ navigation }) => {
           )}
         />
       )}
-    </View>
+    </ScrollView>
   );
 };
 
+
 const DetailsScreen = ({ route, navigation }) => {
   const { receta } = route.params;
-  const ingredientes = [];
-  for (let i = 1; i <= 20; i++) {
-    const ingrediente = receta[`strIngredient${i}`];
-    const medida = receta[`strMeasure${i}`];
-    if (ingrediente) {
-      ingredientes.push(`${medida} ${ingrediente}`.trim());
-    }
-  }
+  const ingredientes = receta.strIngredients || [];
+  const medidas = receta.strMeasures || [];
 
   return (
     <ScrollView style={styles.container}>
@@ -72,7 +108,7 @@ const DetailsScreen = ({ route, navigation }) => {
 
       <Text style={styles.subtitle}>Ingredientes:</Text>
       {ingredientes.map((item, index) => (
-        <Text key={index} style={styles.ingredient}>• {item}</Text>
+        <Text key={index} style={styles.ingredient}>• {medidas[index]} {item}</Text>
       ))}
     </ScrollView>
   );
@@ -87,6 +123,7 @@ export default function App() {
         <Stack.Screen name="Intro" component={Intro} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen name="AddRecipe" component={AddRecipe} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -160,5 +197,17 @@ const styles = StyleSheet.create({
   backButtonText: {
     color: '#FFF',
     fontSize: 16,
+  },
+  addButton: {
+    backgroundColor: "#ff6347",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
