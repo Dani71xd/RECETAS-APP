@@ -6,6 +6,7 @@ import { db, collection, getDocs } from './bd/firebaseConfig';
 import axios from 'axios';
 import AddRecipe from './components/AddRecipe'; 
 import Intro from './components/intro';
+import RemoveRecipes from './components/RemoveRecipes';
 import LogoutScreen from './security/LogoutScreen';
 import LoginScreen from './security/LoginScreen';
 import RegisterScreen from './security/RegisterScreen';
@@ -66,6 +67,16 @@ const HomeScreen = ({ navigation }) => {
       >
         <Text style={styles.buttonText}>Agregar Receta</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={styles.removeButton} 
+        onPress={() => {
+          navigation.navigate('RemoveRecipes');
+        }}
+      >
+        <Text style={styles.buttonText}>Eliminar Receta</Text>
+      </TouchableOpacity>
+
 
       <Text style={styles.title}>Mis Recetas</Text>
       {misRecetas.length === 0 ? (
@@ -141,6 +152,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Details" component={DetailsScreen} />
         <Stack.Screen name="AddRecipe" component={AddRecipe} />
+        <Stack.Screen name="RemoveRecipes" component={RemoveRecipes} />
         <Stack.Screen name="Logout" component={LogoutScreen} options={{ headerShown: false }} /> 
       </Stack.Navigator>
     </NavigationContainer>
@@ -238,6 +250,18 @@ const styles = StyleSheet.create({
   logoutText: {
     color: "#fff",
     fontSize: 18,
+    fontWeight: "bold",
+  },
+  removeButton: {
+    backgroundColor: "#dc3545",  // Rojo fuerte
+    padding: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
     fontWeight: "bold",
   },
 });
