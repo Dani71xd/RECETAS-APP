@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert, ScrollView, Picker, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, Alert, ScrollView, StyleSheet } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { db, collection, addDoc } from "../bd/firebaseConfig";
 
 const AddRecipe = ({ navigation }) => {
@@ -42,15 +43,7 @@ const AddRecipe = ({ navigation }) => {
     <ScrollView style={styles.container}>
       <Text style={styles.label}>Nombre de la receta:</Text>
       <TextInput value={strMeal} onChangeText={setStrMeal} style={styles.input} />
-
-      <Text style={styles.label}>Categoría:</Text>
-      <Picker selectedValue={strCategory} onValueChange={(itemValue) => setStrCategory(itemValue)} style={styles.picker}>
-        <Picker.Item label="Beef" value="Beef" />
-        <Picker.Item label="Chicken" value="Chicken" />
-        <Picker.Item label="Dessert" value="Dessert" />
-        <Picker.Item label="Seafood" value="Seafood" />
-      </Picker>
-
+     
       <Text style={styles.label}>Instrucciones:</Text>
       <TextInput value={strInstructions} onChangeText={setStrInstructions} style={styles.inputMultiline} multiline />
 
