@@ -6,6 +6,9 @@ import { db, collection, getDocs } from './firebaseConfig';
 import axios from 'axios';
 import AddRecipe from './components/AddRecipe'; 
 import Intro from './components/intro';
+import LoginScreen from './LoginScreen';
+import RegisterScreen from './RegisterScreen';
+import ForgotPasswordScreen from './ForgotPasswordScreen';
 
 const API_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
@@ -119,8 +122,10 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Intro" component={Intro} />
+      <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
         <Stack.Screen name="AddRecipe" component={AddRecipe} />
