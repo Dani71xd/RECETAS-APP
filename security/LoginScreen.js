@@ -121,8 +121,9 @@ export default function LoginScreen({ navigation }) {
       <View style={styles.innerContainer}>
         {/* Aquí podrías añadir un logo */}
         <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>FirebaseAuth</Text>
-          <Text style={styles.logoSubtext}>Tutorial</Text>
+        <Text style={styles.logoText}>Delicias en Casa</Text>
+<Text style={styles.logoSubtext}>Explora, cocina y disfruta</Text>
+
         </View>
         
         <Text style={styles.title}>Iniciar Sesión</Text>
@@ -182,7 +183,7 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9fafb',
+    backgroundColor: '#FAFAFA',
   },
   loadingContainer: {
     justifyContent: 'center',
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: 10,
-    color: '#64748b',
+    color: '#666',
   },
   innerContainer: {
     flex: 1,
@@ -204,11 +205,11 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#1976d2',
+    color: '#444',
   },
   logoSubtext: {
     fontSize: 16,
-    color: '#64748b',
+    color: '#555',
   },
   title: {
     fontSize: 24,
@@ -226,17 +227,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   inputError: {
-    borderColor: '#ef4444',
+    borderColor: '#d9534f',
     marginBottom: 4,
   },
   errorText: {
-    color: '#ef4444',
+    color: '#d9534f',
     marginBottom: 10,
     fontSize: 12,
     marginLeft: 4,
   },
   button: {
-    backgroundColor: '#1976d2',
+    backgroundColor: '#ff6347',
     padding: 14,
     borderRadius: 8,
     marginTop: 10,
@@ -269,5 +270,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#1976d2',
     fontWeight: '600',
+  },
+  addButton: {
+    backgroundColor: "#ff6347",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  logoutButton: {
+    backgroundColor: "#d9534f",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  logoutText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });

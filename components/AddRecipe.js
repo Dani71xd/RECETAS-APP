@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, Alert, ScrollView, Picker, StyleSheet } from "react-native";
-import { db, collection, addDoc } from "../firebaseConfig";
+import { db, collection, addDoc } from "../bd/firebaseConfig";
 
 const AddRecipe = ({ navigation }) => {
   const [strMeal, setStrMeal] = useState("");

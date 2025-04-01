@@ -90,20 +90,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 16,
-    backgroundColor: '#f9fafb',
+    backgroundColor: '#FAFAFA',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 12,
     textAlign: 'center',
-    color: '#1976d2',
+    color: '#333',
   },
   subtitle: {
     fontSize: 14,
     textAlign: 'center',
     marginBottom: 24,
-    color: '#64748b',
+    color: '#666',
   },
   input: {
     height: 50,
@@ -115,16 +115,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   inputError: {
-    borderColor: '#ef4444',
+    borderColor: '#d9534f',
   },
   errorText: {
-    color: '#ef4444',
+    color: '#d9534f',
     marginBottom: 8,
     fontSize: 12,
     marginLeft: 4,
   },
   button: {
-    backgroundColor: '#1976d2',
+    backgroundColor: '#ff6347',
     padding: 14,
     borderRadius: 8,
     marginTop: 8,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   linkText: {
-    color: '#1976d2',
+    color: '#ff6347',
     textAlign: 'center',
     marginTop: 20,
     fontSize: 14,

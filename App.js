@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { db, collection, getDocs } from './firebaseConfig';
+import { db, collection, getDocs } from './bd/firebaseConfig';
 import axios from 'axios';
 import AddRecipe from './components/AddRecipe'; 
 import Intro from './components/intro';
-import LoginScreen from './LoginScreen';
-import RegisterScreen from './RegisterScreen';
-import ForgotPasswordScreen from './ForgotPasswordScreen';
+import LogoutScreen from './security/LogoutScreen';
+import LoginScreen from './security/LoginScreen';
+import RegisterScreen from './security/RegisterScreen';
+import ForgotPasswordScreen from './security/ForgotPasswordScreen';
 
 const API_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
@@ -45,6 +46,17 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
+     <View style={{ alignItems: 'flex-end', padding: 16 }}>
+  <TouchableOpacity 
+    style={styles.logoutButton} 
+    onPress={() => navigation.navigate("Logout")}
+  >
+    <Text style={styles.logoutText}>Cerrar Sesión</Text>
+  </TouchableOpacity>
+</View>
+
+
+
       <TouchableOpacity 
         style={styles.addButton} 
         onPress={() => {
@@ -126,9 +138,10 @@ export default function App() {
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" component={HomeScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Details" component={DetailsScreen} />
         <Stack.Screen name="AddRecipe" component={AddRecipe} />
+        <Stack.Screen name="Logout" component={LogoutScreen} options={{ headerShown: false }} /> 
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -211,6 +224,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  logoutButton: {
+    backgroundColor: "#d9534f",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  logoutText: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
